@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pemutar Musik Lokal</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(45deg, #ffff00 0%, #000000 100%); /* Gradien kuning ke hitam */
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efek meteor putih biru */
+        .meteor {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: linear-gradient(to bottom, #ffffff, #0000ff); /* Putih ke biru */
+            border-radius: 50%;
+            animation: fall 3s linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(45deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* Generate beberapa meteor secara acak */
+        .meteor:nth-child(1) { left: 10%; animation-delay: 0s; }
+        .meteor:nth-child(2) { left: 20%; animation-delay: 1s; }
+        .meteor:nth-child(3) { left: 30%; animation-delay: 2s; }
+        .meteor:nth-child(4) { left: 40%; animation-delay: 0.5s; }
+        .meteor:nth-child(5) { left: 50%; animation-delay: 1.5s; }
+        .meteor:nth-child(6) { left: 60%; animation-delay: 2.5s; }
+        .meteor:nth-child(7) { left: 70%; animation-delay: 0.8s; }
+        .meteor:nth-child(8) { left: 80%; animation-delay: 1.8s; }
+        .meteor:nth-child(9) { left: 90%; animation-delay: 2.8s; }
+        .meteor:nth-child(10) { left: 15%; animation-delay: 0.3s; }
+
+        .container {
+            background-color: rgba(0, 0, 0, 0.8); /* Hitam transparan */
+            border: 2px solid #ffff00; /* Kuning sebagai border */
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5); /* Efek kuning */
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            color: #ffff00; /* Kuning */
+            margin-bottom: 20px;
+        }
+
+        h2 {
+            color: #ffffff;
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .photo {
+            width: 150px; /* Lebar 150px, tinggi 200px untuk rasio 3:4 */
+            height: 200px;
+            object-fit: cover;
+            border: 2px solid #ffff00;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+            color: #ffffff;
+            background-color: #ffff00;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 10px;
+        }
+
+        button {
+            background-color: #ffff00;
+            color: #000000;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #ffed00; /* Kuning lebih terang */
+        }
+    </style>
+</head>
+<body>
+    <!-- Efek meteor -->
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+    <div class="meteor"></div>
+
+    <div class="container">
+        <h1>Pemutar Musik Lokal</h1>
+        <h2>rii stecu</h2>
+        <img src="https://i.imghippo.com/files/vE4474xE.png" alt="Foto" class="photo">
+        <input type="file" id="fileInput" accept="audio/*">
+        <audio id="audioPlayer" controls style="display: none;"></audio>
+        <div class="controls">
+            <button id="playPauseBtn">Play</button>
+            <button id="stopBtn">Stop</button>
+        </div>
+    </div>
+
+    <script>
+        const fileInput = document.getElementById('fileInput');
+        const audioPlayer = document.getElementById('audioPlayer');
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const stopBtn = document.getElementById('stopBtn');
+
+        let isPlaying = false;
+
+        fileInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const url = URL.createObjectURL(file);
+                audioPlayer.src = url;
+                audioPlayer.style.display = 'block';
+                playPauseBtn.textContent = 'Play';
+                isPlaying = false;
+            }
+        });
+
+        playPauseBtn.addEventListener('click', function() {
+            if (isPlaying) {
+                audioPlayer.pause();
+                playPauseBtn.textContent = 'Play';
+            } else {
+                audioPlayer.play();
+                playPauseBtn.textContent = 'Pause';
+            }
+            isPlaying = !isPlaying;
+        });
+
+        stopBtn.addEventListener('click', function() {
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+            playPauseBtn.textContent = 'Play';
+            isPlaying = false;
+        });
+    </script>
+</body>
+</html>
